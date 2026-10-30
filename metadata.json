@@ -1,0 +1,6 @@
+{
+  "name": "Sabbath Life",
+  "description": "Kuishi kwa Neno, Kuendelea na Kristo. A Christian mobile app with Biblia, Nyimbo, Sabbath School Lesson, Roho ya Unabii, Mahubiri, Maombi, and Hope Channel Tanzania.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
