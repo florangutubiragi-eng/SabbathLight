@@ -1,0 +1,18 @@
+{
+  "name": "sabbath-life",
+  "version": "1.0.0",
+  "description": "Sabbath Life - Progressive Web App (PWA) for Seventh-day Adventists",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "keywords": [
+    "pwa",
+    "seventh-day-adventist",
+    "bible",
+    "hymns",
+    "sabbath-school"
+  ],
+  "author": "Sabbath Life",
+  "license": "ISC"
+}

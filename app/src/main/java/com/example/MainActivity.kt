@@ -31,6 +31,7 @@ import com.example.ui.screens.AboutScreen
 import com.example.ui.screens.BibleReaderScreen
 import com.example.ui.screens.BibleScreen
 import com.example.ui.screens.BookmarksScreen
+import com.example.ui.screens.DownloadsScreen
 import com.example.ui.screens.EgwReaderScreen
 import com.example.ui.screens.HomeScreen
 import com.example.ui.screens.HopeChannelScreen
@@ -186,6 +187,11 @@ class MainActivity : ComponentActivity() {
                                 )
                                 NavScreen.ABOUT -> AboutScreen(
                                     language = language
+                                )
+                                NavScreen.DOWNLOADS -> DownloadsScreen(
+                                    viewModel = viewModel,
+                                    language = language,
+                                    onNavigate = { viewModel.navigateTo(it) }
                                 )
                                 NavScreen.MORE -> MoreScreen(
                                     viewModel = viewModel,

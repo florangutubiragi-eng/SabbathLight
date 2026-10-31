@@ -15,5 +15,6 @@ enum class NavScreen {
     BOOKMARKS,
     SETTINGS,
     ABOUT,
+    DOWNLOADS,
     MORE
 }

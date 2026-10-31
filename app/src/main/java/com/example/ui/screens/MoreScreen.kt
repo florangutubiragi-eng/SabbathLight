@@ -22,6 +22,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AutoStories
 import androidx.compose.material.icons.filled.Bookmark
 import androidx.compose.material.icons.filled.ChevronRight
+import androidx.compose.material.icons.filled.CloudDownload
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.LiveTv
 import androidx.compose.material.icons.filled.Settings
@@ -106,6 +107,16 @@ fun MoreScreen(
             iconTint = GoldPrimary,
             destination = NavScreen.BOOKMARKS,
             tag = "more_item_bookmarks"
+        ),
+        MoreMenuItem(
+            titleSwahili = "Vipakuliwa na Hifadhi",
+            titleEnglish = "Downloads & Offline Storage",
+            subtitleSwahili = "Nyimbo, masomo na maandishi yaliyohifadhiwa nje ya mtandao",
+            subtitleEnglish = "Hymns, lessons, and notes saved for offline access",
+            icon = Icons.Default.CloudDownload,
+            iconTint = Color(0xFF0284C7),
+            destination = NavScreen.DOWNLOADS,
+            tag = "more_item_downloads"
         ),
         MoreMenuItem(
             titleSwahili = "Mipangilio",

@@ -1,0 +1,67 @@
+{
+  "name": "Sabbath Life",
+  "short_name": "Sabbath Life",
+  "start_url": "/",
+  "id": "/",
+  "display": "standalone",
+  "background_color": "#071324",
+  "theme_color": "#071324",
+  "orientation": "portrait-primary",
+  "description": "Kuishi kwa Neno, Kuendelea na Kristo. Seventh-day Adventist Progressive Web App with Holy Bible, Nyimbo za Kristo, SDA Hymnal, Sabbath School, Spirit of Prophecy, Hope Channel Tanzania, Sermons and Prayers.",
+  "lang": "sw",
+  "dir": "ltr",
+  "scope": "/",
+  "icons": [
+    {
+      "src": "/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/icon.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ],
+  "categories": [
+    "lifestyle",
+    "education",
+    "books",
+    "music"
+  ],
+  "shortcuts": [
+    {
+      "name": "Biblia (Bible)",
+      "short_name": "Biblia",
+      "url": "/#bible",
+      "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Nyimbo za Kristo",
+      "short_name": "Nyimbo",
+      "url": "/#hymns",
+      "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Somo la Sabato",
+      "short_name": "Lesson",
+      "url": "/#lesson",
+      "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Hope Channel Live",
+      "short_name": "Hope TV",
+      "url": "/#hope-channel",
+      "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }]
+    }
+  ],
+  "screenshots": []
+}

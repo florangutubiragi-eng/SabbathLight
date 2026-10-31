@@ -268,3 +268,13 @@ data class RecentlyViewedItem(
     val targetId: String,
     val timestamp: Long = System.currentTimeMillis()
 )
+
+data class DownloadedItem(
+    val id: String,
+    val type: ContentType,
+    val title: String,
+    val subtitle: String,
+    val estimatedSize: String,
+    val downloadSource: String = "SDA Authorized Public Resource",
+    val downloadedAt: Long = System.currentTimeMillis()
+)

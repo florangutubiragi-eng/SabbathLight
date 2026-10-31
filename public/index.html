@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="sw" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover">
+  <title>Sabbath Life - Kuishi kwa Neno, Kuendelea na Kristo</title>
+
+  <!-- PWA Meta Tags -->
+  <link rel="manifest" href="/manifest.webmanifest">
+  <meta name="theme-color" content="#071324">
+  <meta name="background-color" content="#071324">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Sabbath Life">
+  <meta name="application-name" content="Sabbath Life">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="description" content="Kuishi kwa Neno, Kuendelea na Kristo. Seventh-day Adventist PWA with Holy Bible, Nyimbo za Kristo, SDA Hymnal, Sabbath School, EGW, Hope Channel Tanzania, and Prayers.">
+
+  <!-- Icons -->
+  <link rel="icon" type="image/svg+xml" href="/icons/icon.svg">
+  <link rel="apple-touch-icon" href="/icons/icon-192.png">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="/app.css">
+</head>
+<body>
+
+  <!-- Splash Screen -->
+  <div id="splash-screen">
+    <div class="splash-logo-wrap">
+      <img src="/icons/icon-192.png" alt="Sabbath Life Logo" class="splash-logo">
+    </div>
+    <h1 class="splash-title">SABBATH LIFE</h1>
+    <p class="splash-tagline">"Kuishi kwa Neno, Kuendelea na Kristo."</p>
+    <div class="splash-loader">
+      <div class="splash-loader-bar"></div>
+    </div>
+  </div>
+
+  <!-- Offline Notice Banner -->
+  <div id="offline-banner" role="alert">
+    📡 <span id="offline-text">Uko nje ya mtandao. Maudhui yaliyohifadhiwa yanaendelea kufanya kazi.</span>
+  </div>
+
+  <!-- Top App Header -->
+  <header class="top-header">
+    <div class="brand-section" onclick="navigateTo('home')">
+      <img src="/icons/icon.svg" alt="App Icon" class="brand-icon">
+      <div>
+        <div class="brand-name">SABBATH LIFE</div>
+        <div class="brand-sabbath-status">
+          <span class="status-dot"></span>
+          <span id="header-sabbath-status">SABATO TAKATIFU</span>
+        </div>
+      </div>
+    </div>
+    <div class="header-actions">
+      <button class="header-btn" onclick="toggleLanguage()" title="Badili Lugha / Switch Language" id="btn-lang-toggle">
+        <span class="lang-badge" id="lang-indicator">SW</span>
+      </button>
+      <button class="header-btn" onclick="cycleFontSize()" title="Ukubwa wa Maandishi / Font Size">
+        Aa
+      </button>
+      <button class="header-btn" onclick="toggleTheme()" title="Badili Mandhari / Toggle Theme" id="btn-theme-toggle">
+        🌙
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Application Container -->
+  <main id="app-container">
+
+    <!-- 1. HOME SCREEN -->
+    <section id="screen-home" class="screen active">
+      <!-- Hero Banner -->
+      <div class="hero-card" style="background-image: url('/images/sabbath_hero.jpg');">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+          <div class="pill-badge">
+            ☀️ <span id="home-badge-text">SABATO TAKATIFU YA BWANA</span>
+          </div>
+          <h2 class="hero-title" id="home-greeting">Sabato Njema!</h2>
+          <p class="hero-subtitle" id="home-welcome">"Karibu katika Sabbath Life. Jifunze Neno, imba nyimbo za sifa na ufurahie amani ya Sabato."</p>
+        </div>
+      </div>
+
+      <!-- Daily Verse Card -->
+      <div class="card card-gold">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+          <div style="display:flex; align-items:center; gap:8px;">
+            <span style="font-size:20px;">📖</span>
+            <strong style="color:var(--gold-light);" id="label-daily-verse">Aya ya Leo</strong>
+          </div>
+          <div style="display:flex; gap:6px;">
+            <button class="header-btn" style="width:34px; height:34px;" onclick="shareDailyVerse()" title="Shiriki / Share">🔗</button>
+            <button class="header-btn" style="width:34px; height:34px;" onclick="bookmarkDailyVerse()" title="Hifadhi / Bookmark" id="btn-verse-bookmark">🔖</button>
+          </div>
+        </div>
+        <blockquote id="daily-verse-text" style="font-style:italic; line-height:1.7; margin-bottom:10px; color:var(--text-primary);">
+          "Kama ukigeuza mguu wako usihalifu sabato, usifanye anasa yako siku ya utakatifu wangu; ukiita sabato siku ya furaha, na siku takatifu ya Bwana yenye heshima; ukiitukuza... ndipo utakapojifurahisha katika Bwana."
+        </blockquote>
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <strong style="color:var(--gold-primary);" id="daily-verse-ref">Isaya 58:13-14</strong>
+          <a class="section-link" onclick="openBibleChapter('isaiah', 58)" id="link-read-chapter">Soma Sura Kamili →</a>
+        </div>
+      </div>
+
+      <!-- Weekly Sabbath School Spotlight Card -->
+      <div class="card card-navy" onclick="navigateTo('lesson')">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+          <span class="pill-badge" id="label-quarterly-badge">SOMO LA JUMA</span>
+          <span style="font-size:12px; color:var(--text-secondary);" id="lesson-dates">Robo ya 1 • 2026</span>
+        </div>
+        <h3 style="font-size:18px; margin-bottom:4px; color:white;" id="home-lesson-title">Tumaini Katika Kristo: Kuishi kwa Ushindi</h3>
+        <p style="font-size:12px; color:var(--gold-light); margin-bottom:12px;" id="home-lesson-quarter">Masomo ya Shule ya Sabato ya Watu Wazima</p>
+        <div style="background:rgba(0,0,0,0.3); border-radius:var(--radius-sm); padding:10px; margin-bottom:12px; border:1px solid var(--border-subtle);">
+          <div style="font-size:11px; font-weight:bold; color:var(--gold-light);" id="label-memory-verse-title">Aya ya Kukariri (Waebrania 10:23):</div>
+          <p style="font-size:12px; font-style:italic; color:var(--text-secondary);" id="home-memory-verse">"Na tushike sana ungamo la tumaini letu lisigeuke; maana yeye aliyeahidi ni mwaminifu."</p>
+        </div>
+        <button class="btn btn-gold btn-block" style="min-height:44px;" id="btn-home-lesson">Soma Masomo 7 ya Juma</button>
+      </div>
+
+      <!-- 6 Attractive Feature Cards -->
+      <div class="section-title-wrap">
+        <h3 class="section-title" id="title-features">Huduma za Sabbath Life</h3>
+      </div>
+      <div class="feature-grid">
+        <div class="feature-btn" onclick="navigateTo('bible')">
+          <div class="feature-icon-wrap" style="background:rgba(30, 92, 217, 0.2); color:var(--royal-blue-light);">📖</div>
+          <div class="feature-title" id="feat-bible">Biblia</div>
+          <div class="feature-sub" id="feat-bible-sub">Agano 2 (SUV)</div>
+        </div>
+        <div class="feature-btn" onclick="navigateTo('hymns')">
+          <div class="feature-icon-wrap" style="background:rgba(212, 175, 55, 0.2); color:var(--gold-primary);">🎵</div>
+          <div class="feature-title" id="feat-hymns">Nyimbo</div>
+          <div class="feature-sub" id="feat-hymns-sub">Za Kristo & SDA</div>
+        </div>
+        <div class="feature-btn" onclick="navigateTo('lesson')">
+          <div class="feature-icon-wrap" style="background:rgba(16, 185, 129, 0.2); color:var(--success);">📚</div>
+          <div class="feature-title" id="feat-lesson">Lesson</div>
+          <div class="feature-sub" id="feat-lesson-sub">Siku 7 za Juma</div>
+        </div>
+        <div class="feature-btn" onclick="navigateTo('egw')">
+          <div class="feature-icon-wrap" style="background:rgba(139, 92, 246, 0.2); color:#A78BFA);">📜</div>
+          <div class="feature-title" id="feat-egw">Roho ya Unabii</div>
+          <div class="feature-sub">E.G. White</div>
+        </div>
+        <div class="feature-btn" onclick="navigateTo('sermons')">
+          <div class="feature-icon-wrap" style="background:rgba(236, 72, 153, 0.2); color:#F472B6);">🎙️</div>
+          <div class="feature-title" id="feat-sermons">Mahubiri</div>
+          <div class="feature-sub" id="feat-sermons-sub">Sauti & Video</div>
+        </div>
+        <div class="feature-btn" onclick="navigateTo('prayer')">
+          <div class="feature-icon-wrap" style="background:rgba(245, 158, 11, 0.2); color:var(--warning);">🙏</div>
+          <div class="feature-title" id="feat-prayer">Maombi</div>
+          <div class="feature-sub" id="feat-prayer-sub">Journal & Ahadi</div>
+        </div>
+      </div>
+
+      <!-- Hope Channel Tanzania Section Card -->
+      <div class="section-title-wrap">
+        <h3 class="section-title">
+          <span style="color:var(--danger)">📺</span> Hope Channel Tanzania
+        </h3>
+        <a class="section-link" onclick="navigateTo('hope-channel')" id="link-hope-all">Tazama Yote →</a>
+      </div>
+      <div class="card card-navy" style="padding:0; cursor:pointer;" onclick="navigateTo('hope-channel')">
+        <div style="position:relative; height:150px; background-image:url('/images/hope_channel_banner.jpg'); background-size:cover; background-position:center;">
+          <div class="hero-overlay"></div>
+          <div style="position:absolute; top:12px; right:12px; z-index:2;">
+            <span class="pill-badge red">● MUBASHARA / LIVE</span>
+          </div>
+          <div style="position:absolute; bottom:12px; left:16px; z-index:2; right:16px;">
+            <strong style="font-size:16px; color:white;">Hope Channel Tanzania 24/7</strong>
+            <p style="font-size:12px; color:var(--text-secondary); margin-top:2px;" id="hope-home-desc">Injili, afya bora na tumaini tele • Bonyeza kutazama au kusikiliza live</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. BIBLE SCREEN -->
+    <section id="screen-bible" class="screen">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+        <h2 style="color:var(--gold-primary);" id="bible-header-title">Biblia Takatifu (SUV)</h2>
+        <span class="pill-badge" id="bible-badge-ver">Swahili Union Version</span>
+      </div>
+
+      <!-- Search Bible -->
+      <div class="search-box">
+        <span>🔍</span>
+        <input type="text" id="bible-search-input" class="search-input" placeholder="Tafuta kitabu, neno au aya..." oninput="filterBible()">
+      </div>
+
+      <!-- Testament Switcher Chips -->
+      <div class="chip-row">
+        <button class="chip active" onclick="switchTestament('ALL')" id="tab-test-all">Vitabu Vyote (66)</button>
+        <button class="chip" onclick="switchTestament('OLD')" id="tab-test-old">Agano la Kale (39)</button>
+        <button class="chip" onclick="switchTestament('NEW')" id="tab-test-new">Agano Jipya (27)</button>
+      </div>
+
+      <!-- Bible Books List -->
+      <div id="bible-books-list"></div>
+
+      <!-- Bible Reader Modal View (When a chapter is selected) -->
+      <div id="bible-reader-view" style="display:none; margin-top:16px;">
+        <div class="card card-navy" style="position:sticky; top:calc(var(--header-height) + 10px); z-index:100;">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <button class="btn btn-outline" style="min-height:38px; padding:6px 12px;" onclick="closeBibleReader()">← Vitabu</button>
+            <div style="text-align:center;">
+              <strong style="color:var(--gold-light); font-size:16px;" id="reader-book-title">Mwanzo 1</strong>
+              <div style="font-size:11px; color:var(--text-secondary);">Swahili Union Version</div>
+            </div>
+            <div style="display:flex; gap:4px;">
+              <button class="header-btn" style="width:32px; height:32px;" onclick="adjustFontSize(-1)">A-</button>
+              <button class="header-btn" style="width:32px; height:32px;" onclick="adjustFontSize(1)">A+</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="card reader-container size-md" id="bible-verses-container">
+          <!-- Verses will render here -->
+        </div>
+
+        <!-- Chapter Navigation Prev / Next Buttons -->
+        <div style="display:flex; gap:10px; margin-top:14px; margin-bottom:24px;">
+          <button class="btn btn-outline" style="flex:1;" id="btn-prev-chapter" onclick="navigateChapter(-1)">← Sura Iliyopita</button>
+          <button class="btn btn-gold" style="flex:1;" id="btn-next-chapter" onclick="navigateChapter(1)">Sura Inayofuata →</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. HYMNS SCREEN -->
+    <section id="screen-hymns" class="screen">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+        <h2 style="color:var(--gold-primary);" id="hymns-header-title">Nyimbo za Kristo & SDA</h2>
+        <span class="pill-badge" id="hymns-count-badge">Nyimbo Halisi</span>
+      </div>
+
+      <!-- Hymn Search -->
+      <div class="search-box">
+        <span>🔍</span>
+        <input type="text" id="hymn-search-input" class="search-input" placeholder="Tafuta namba au jina la wimbo..." oninput="filterHymns()">
+      </div>
+
+      <!-- Hymn Collection Switcher -->
+      <div class="chip-row">
+        <button class="chip active" onclick="switchHymnCollection('NZK')" id="hymn-tab-nzk">Nyimbo za Kristo</button>
+        <button class="chip" onclick="switchHymnCollection('SDAH')" id="hymn-tab-sdah">SDA Hymnal (1985)</button>
+        <button class="chip" onclick="switchHymnCollection('OTHER')" id="hymn-tab-other">Mikusanyiko Mingine</button>
+        <button class="chip" onclick="switchHymnCollection('CHOIR')" id="hymn-tab-choir">Nyimbo za Kwaya</button>
+      </div>
+
+      <!-- Hymn List -->
+      <div id="hymn-list-container"></div>
+
+      <!-- Hymn Detail Reader Modal View -->
+      <div id="hymn-reader-view" style="display:none; margin-top:16px;">
+        <div class="card card-navy">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+            <button class="btn btn-outline" style="min-height:38px; padding:6px 12px;" onclick="closeHymnReader()">← Nyimbo</button>
+            <div style="display:flex; gap:6px;">
+              <button class="header-btn" style="width:34px; height:34px;" onclick="toggleHymnBookmark()" id="btn-hymn-bookmark">🔖</button>
+              <button class="header-btn" style="width:34px; height:34px;" onclick="shareCurrentHymn()">🔗</button>
+            </div>
+          </div>
+          <div style="text-align:center; padding-bottom:10px; border-bottom:1px solid var(--border-subtle);">
+            <div class="pill-badge" id="hymn-detail-number">Na. 1</div>
+            <h3 style="font-size:20px; color:white; margin:8px 0 4px;" id="hymn-detail-title">Mungu Ndiye Nguvu Yetu</h3>
+            <p style="font-size:12px; color:var(--gold-light);" id="hymn-detail-sub">A Mighty Fortress Is Our God</p>
+            <p style="font-size:11px; color:var(--text-muted); margin-top:4px;" id="hymn-detail-composer">Martin Luther • Zaburi 46:1</p>
+          </div>
+
+          <div style="margin-top:14px; text-align:center;">
+            <button class="btn btn-gold btn-block" onclick="playCurrentHymnAudio()" id="btn-play-hymn-audio">
+              ▶️ Sikiliza Wimbo Huu (Audio)
+            </button>
+          </div>
+        </div>
+
+        <div class="card reader-container size-md" id="hymn-lyrics-container" style="line-height:2; white-space:pre-line;">
+          <!-- Lyrics will render here -->
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. SABBATH SCHOOL LESSON SCREEN -->
+    <section id="screen-lesson" class="screen">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+        <h2 style="color:var(--gold-primary);" id="lesson-screen-header">Somo la Shule ya Sabato</h2>
+        <span class="pill-badge">Robo ya 1 • 2026</span>
+      </div>
+
+      <div class="card card-navy">
+        <h3 style="font-size:18px; color:white;" id="lesson-screen-title">Tumaini Katika Kristo: Kuishi kwa Ushindi</h3>
+        <p style="font-size:12px; color:var(--gold-light); margin-top:2px;">Robo ya Kwanza 2026 • Somo Na. 4</p>
+        <div style="margin-top:10px; background:rgba(0,0,0,0.3); padding:10px; border-radius:var(--radius-sm); border:1px solid var(--border-subtle);">
+          <strong style="color:var(--gold-light); font-size:12px;" id="lesson-mem-title">Aya ya Kukariri (Waebrania 10:23):</strong>
+          <p style="font-size:13px; font-style:italic; color:var(--text-secondary); margin-top:4px;">"Na tushike sana ungamo la tumaini letu lisigeuke; maana yeye aliyeahidi ni mwaminifu."</p>
+        </div>
+      </div>
+
+      <!-- 7 Daily Lesson Tabs -->
+      <div class="chip-row">
+        <button class="chip active" onclick="switchLessonDay(0)" id="day-chip-0">Sabato</button>
+        <button class="chip" onclick="switchLessonDay(1)" id="day-chip-1">Jumapili</button>
+        <button class="chip" onclick="switchLessonDay(2)" id="day-chip-2">Jumatatu</button>
+        <button class="chip" onclick="switchLessonDay(3)" id="day-chip-3">Jumanne</button>
+        <button class="chip" onclick="switchLessonDay(4)" id="day-chip-4">Jumatano</button>
+        <button class="chip" onclick="switchLessonDay(5)" id="day-chip-5">Alhamisi</button>
+        <button class="chip" onclick="switchLessonDay(6)" id="day-chip-6">Ijumaa</button>
+      </div>
+
+      <div class="card reader-container size-md" id="daily-lesson-content">
+        <!-- Rendered daily lesson -->
+      </div>
+    </section>
+
+    <!-- 5. SPIRIT OF PROPHECY (EGW) SCREEN -->
+    <section id="screen-egw" class="screen">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+        <h2 style="color:var(--gold-primary);" id="egw-header-title">Roho ya Unabii</h2>
+        <span class="pill-badge">Ellen G. White</span>
+      </div>
+
+      <div id="egw-books-list"></div>
+
+      <!-- EGW Reader -->
+      <div id="egw-reader-view" style="display:none; margin-top:16px;">
+        <div class="card card-navy">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+            <button class="btn btn-outline" style="min-height:38px; padding:6px 12px;" onclick="closeEgwReader()">← Vitabu</button>
+            <strong style="color:var(--gold-light);" id="egw-reader-title">Hatua kwa Kristo</strong>
+            <button class="header-btn" style="width:34px; height:34px;" onclick="shareCurrentEgw()">🔗</button>
+          </div>
+          <h4 style="color:white; font-size:16px;" id="egw-chapter-subtitle">Sura ya 1: Upendo wa Mungu</h4>
+        </div>
+        <div class="card reader-container size-md" id="egw-content-container" style="line-height:1.9;"></div>
+      </div>
+    </section>
+
+    <!-- 6. SERMONS SCREEN -->
+    <section id="screen-sermons" class="screen">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+        <h2 style="color:var(--gold-primary);" id="sermons-header-title">Mahubiri ya Kisabato</h2>
+        <span class="pill-badge">Sauti & Video</span>
+      </div>
+
+      <div class="chip-row">
+        <button class="chip active" onclick="filterSermons('ALL')">Yote</button>
+        <button class="chip" onclick="filterSermons('AUDIO')">Sauti (Audio)</button>
+        <button class="chip" onclick="filterSermons('VIDEO')">Video</button>
+      </div>
+
+      <div id="sermons-list-container"></div>
+    </section>
+
+    <!-- 7. HOPE CHANNEL TANZANIA SCREEN -->
+    <section id="screen-hope-channel" class="screen">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+        <h2 style="color:var(--gold-primary);">Hope Channel Tanzania</h2>
+        <span class="pill-badge red">Mubashara / Live</span>
+      </div>
+
+      <!-- Live Broadcast Studio Card -->
+      <div class="card card-navy" style="padding:0; overflow:hidden;">
+        <div style="position:relative; height:180px; background-image:url('/images/hope_channel_banner.jpg'); background-size:cover; background-position:center;">
+          <div class="hero-overlay"></div>
+          <div style="position:absolute; bottom:16px; left:16px; right:16px; z-index:2;">
+            <span class="pill-badge red">● 24/7 BROADCAST</span>
+            <h3 style="font-size:20px; color:white; margin:6px 0 2px;">Studio za Dar es Salaam</h3>
+            <p style="font-size:12px; color:var(--text-secondary);">Matangazo ya Habari Njema ya Wokovu na Afya Tele</p>
+          </div>
+        </div>
+
+        <div style="padding:16px; display:flex; flex-direction:column; gap:10px;">
+          <div style="display:flex; gap:10px;">
+            <button class="btn btn-gold" style="flex:1;" onclick="toggleHopeChannelAudio()" id="btn-hope-audio">
+              📻 Sikiliza Live (Audio)
+            </button>
+            <a href="https://www.youtube.com/results?search_query=Hope+Channel+Tanzania+Live" target="_blank" rel="noopener noreferrer" class="btn btn-royal" style="flex:1;">
+              📺 YouTube Live
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tuning Info Card -->
+      <div class="card">
+        <h4 style="color:var(--gold-primary); margin-bottom:8px; display:flex; align-items:center; gap:6px;">
+          📡 Njia za Kutazama / Frequency
+        </h4>
+        <div style="font-size:13px; line-height:1.8; color:var(--text-secondary);">
+          <div>• <strong>Azam TV:</strong> Chaneli 415</div>
+          <div>• <strong>StarTimes:</strong> Chaneli 120</div>
+          <div>• <strong>DStv:</strong> Chaneli 346</div>
+          <div>• <strong>YouTube:</strong> Hope Channel Tanzania</div>
+          <div>• <strong>Wavuti:</strong> hopetv.co.tz</div>
+        </div>
+      </div>
+
+      <!-- Featured Programs -->
+      <div class="section-title-wrap">
+        <h3 class="section-title">Vipindi Maarufu</h3>
+      </div>
+      <div id="hope-programs-list"></div>
+    </section>
+
+    <!-- 8. PRAYER JOURNAL SCREEN -->
+    <section id="screen-prayer" class="screen">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+        <h2 style="color:var(--gold-primary);" id="prayer-header-title">Maombi na Ahadi za Neno</h2>
+        <button class="btn btn-gold" style="min-height:38px; padding:6px 14px;" onclick="openPrayerJournalModal()">+ Ombi Jipya</button>
+      </div>
+
+      <!-- Category Filter -->
+      <div class="chip-row">
+        <button class="chip active" onclick="filterPrayers('ALL')">Yote</button>
+        <button class="chip" onclick="filterPrayers('MORNING')">Asubuhi</button>
+        <button class="chip" onclick="filterPrayers('MIDDAY')">Mchana</button>
+        <button class="chip" onclick="filterPrayers('EVENING')">Jioni</button>
+        <button class="chip" onclick="filterPrayers('JOURNAL')">Journal Yangu</button>
+      </div>
+
+      <div id="prayers-list-container"></div>
+    </section>
+
+    <!-- 9. DOWNLOADS & BOOKMARKS SCREEN -->
+    <section id="screen-downloads" class="screen">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+        <h2 style="color:var(--gold-primary);" id="bookmarks-header-title">Vipendwa & Hifadhi</h2>
+        <button class="btn btn-outline" style="min-height:36px; padding:4px 12px;" onclick="clearAllBookmarks()">Futa Yote</button>
+      </div>
+
+      <div id="bookmarks-list-container"></div>
+    </section>
+
+    <!-- 10. SETTINGS SCREEN -->
+    <section id="screen-settings" class="screen">
+      <h2 style="color:var(--gold-primary); margin-bottom:16px;" id="settings-header-title">Mipangilio ya Sabbath Life</h2>
+
+      <!-- PWA Install Prompt Card (Visible when installable) -->
+      <div class="card card-gold" id="pwa-install-card">
+        <div style="display:flex; align-items:center; gap:12px; margin-bottom:10px;">
+          <img src="/icons/icon.svg" style="width:44px; height:44px; border-radius:12px;" alt="Logo">
+          <div>
+            <strong style="font-size:16px; color:var(--text-primary);">Weka Sabbath Life Kwenye Simu (PWA)</strong>
+            <p style="font-size:12px; color:var(--text-secondary);">Tumia moja kwa moja kutoka kwenye skrini yako kuu bila browser address bar.</p>
+          </div>
+        </div>
+        <button class="btn btn-gold btn-block" onclick="triggerPwaInstall()" id="btn-pwa-install">
+          📲 Sakinisha Sabbath Life Sasa (Install PWA)
+        </button>
+      </div>
+
+      <!-- Language Preference Card -->
+      <div class="card">
+        <h4 style="color:var(--gold-primary); margin-bottom:10px;">Lugha ya Programu / Language</h4>
+        <div style="display:flex; gap:10px;">
+          <button class="btn btn-royal" style="flex:1;" onclick="setAppLanguage('sw')" id="btn-lang-sw">Kiswahili (Chaguo-msingi)</button>
+          <button class="btn btn-outline" style="flex:1;" onclick="setAppLanguage('en')" id="btn-lang-en">English</button>
+        </div>
+      </div>
+
+      <!-- Theme Preference Card -->
+      <div class="card">
+        <h4 style="color:var(--gold-primary); margin-bottom:10px;">Mandhari / Theme Mode</h4>
+        <div style="display:flex; gap:10px;">
+          <button class="btn btn-royal" style="flex:1;" onclick="setAppTheme('dark')" id="btn-theme-dark">Dark Navy & Gold</button>
+          <button class="btn btn-outline" style="flex:1;" onclick="setAppTheme('light')" id="btn-theme-light">Light Mode</button>
+        </div>
+      </div>
+
+      <!-- Font Size Card -->
+      <div class="card">
+        <h4 style="color:var(--gold-primary); margin-bottom:10px;">Ukubwa wa Maandishi / Font Size</h4>
+        <div style="display:flex; gap:8px;">
+          <button class="btn btn-outline" style="flex:1;" onclick="setFontSizePref('sm')">Ndogo</button>
+          <button class="btn btn-royal" style="flex:1;" onclick="setFontSizePref('md')">Kawaida</button>
+          <button class="btn btn-outline" style="flex:1;" onclick="setFontSizePref('lg')">Kubwa</button>
+          <button class="btn btn-outline" style="flex:1;" onclick="setFontSizePref('xl')">Kubwa Zaidi</button>
+        </div>
+      </div>
+
+      <!-- About Card -->
+      <div class="card card-navy">
+        <h3 style="color:var(--gold-light); margin-bottom:6px;">Kuhusu Sabbath Life</h3>
+        <p style="font-size:12px; color:var(--text-secondary); line-height:1.7;">
+          <strong>SABBATH LIFE</strong> ni programu iliyoundwa kuwasaidia Waadventista wa Sabato na wakristo wote kuishi maisha ya ushindi katika Kristo kupitia Neno la Mungu, Nyimbo za Sifa, Masomo ya Shule ya Sabato, na Roho ya Unabii.
+        </p>
+        <div style="margin-top:12px; font-size:11px; color:var(--gold-primary);">
+          Toleo: 1.0.0 (Progressive Web App) • © 2026 Sabbath Life
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Persistent Global Audio Player Bar -->
+  <div id="global-audio-player" class="hidden">
+    <div class="player-progress-bar" onclick="seekAudioBar(event)">
+      <div class="player-progress-fill" id="player-progress-fill"></div>
+    </div>
+    <div class="player-info" onclick="navigateTo('hymns')">
+      <div class="player-title" id="player-title">Wimbo wa Kristo</div>
+      <div class="player-sub" id="player-subtitle">Sabbath Life Audio</div>
+    </div>
+    <div class="player-controls">
+      <button class="player-btn" onclick="prevAudioTrack()" title="Nyuma / Previous">⏮️</button>
+      <button class="player-btn play-pause" onclick="togglePlayPauseAudio()" id="player-play-btn" title="Cheza / Sitisha">▶️</button>
+      <button class="player-btn" onclick="nextAudioTrack()" title="Mbele / Next">⏭️</button>
+      <button class="player-btn" onclick="closeAudioPlayerBar()" title="Funga / Close">✖️</button>
+    </div>
+  </div>
+
+  <!-- Bottom Navigation Bar (6 Primary Sections) -->
+  <nav class="bottom-nav">
+    <a class="nav-item active" onclick="navigateTo('home')" id="nav-btn-home">
+      <div class="nav-icon">🏠</div>
+      <div class="nav-label" id="nav-lbl-home">Home</div>
+    </a>
+    <a class="nav-item" onclick="navigateTo('bible')" id="nav-btn-bible">
+      <div class="nav-icon">📖</div>
+      <div class="nav-label" id="nav-lbl-bible">Biblia</div>
+    </a>
+    <a class="nav-item" onclick="navigateTo('lesson')" id="nav-btn-lesson">
+      <div class="nav-icon">📚</div>
+      <div class="nav-label" id="nav-lbl-lesson">Lesson</div>
+    </a>
+    <a class="nav-item" onclick="navigateTo('hymns')" id="nav-btn-hymns">
+      <div class="nav-icon">🎵</div>
+      <div class="nav-label" id="nav-lbl-hymns">Nyimbo</div>
+    </a>
+    <a class="nav-item" onclick="navigateTo('sermons')" id="nav-btn-sermons">
+      <div class="nav-icon">🎙️</div>
+      <div class="nav-label" id="nav-lbl-sermons">Mahubiri</div>
+    </a>
+    <a class="nav-item" onclick="navigateTo('settings')" id="nav-btn-more">
+      <div class="nav-icon">⚙️</div>
+      <div class="nav-label" id="nav-lbl-more">Zaidi</div>
+    </a>
+  </nav>
+
+  <!-- Add Personal Prayer Journal Modal -->
+  <div class="modal-overlay" id="prayer-modal">
+    <div class="modal-sheet">
+      <div class="modal-header">
+        <h3 class="modal-title" id="modal-prayer-title">Andika Ombi Lako Binafsi</h3>
+        <button class="header-btn" style="width:32px; height:32px;" onclick="closePrayerModal()">✕</button>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:12px;">
+        <input type="text" id="new-prayer-title" class="search-input" style="border:1px solid var(--border-subtle); padding:10px; border-radius:var(--radius-sm);" placeholder="Kichwa cha Ombi (mf. Familia yangu, Afya)">
+        <textarea id="new-prayer-text" style="width:100%; height:120px; background:var(--bg-surface-elevated); border:1px solid var(--border-subtle); border-radius:var(--radius-sm); color:var(--text-primary); padding:10px; font-family:inherit; resize:none;" placeholder="Eleza ombi lako mbele za Bwana..."></textarea>
+        <button class="btn btn-gold btn-block" onclick="savePersonalPrayer()">Hifadhi Ombi Langu</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toast">Taarifa imehifadhiwa</div>
+
+  <!-- Hidden Native Audio Element -->
+  <audio id="audio-engine" preload="auto"></audio>
+
+  <!-- Application Logic -->
+  <script src="/app.js"></script>
+
+  <!-- PWA Service Worker Registration -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js')
+          .then((reg) => {
+            console.log('Sabbath Life Service Worker registered with scope:', reg.scope);
+          })
+          .catch((err) => {
+            console.warn('Service Worker registration failed:', err);
+          });
+      });
+    }
+
+    // Monitor Online / Offline Status
+    window.addEventListener('online', () => {
+      document.getElementById('offline-banner').classList.remove('visible');
+    });
+    window.addEventListener('offline', () => {
+      document.getElementById('offline-banner').classList.add('visible');
+    });
+    if (!navigator.onLine) {
+      document.getElementById('offline-banner').classList.add('visible');
+    }
+  </script>
+</body>
+</html>

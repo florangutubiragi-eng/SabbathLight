@@ -5,6 +5,7 @@ import android.content.SharedPreferences
 import com.example.data.models.AppLanguage
 import com.example.data.models.AppThemeMode
 import com.example.data.models.ContentType
+import com.example.data.models.DownloadedItem
 import com.example.data.models.FontSizeMode
 import com.example.data.models.PrayerCategory
 import com.example.data.models.PrayerItem
@@ -34,6 +35,7 @@ class PreferencesManager(context: Context) {
         private const val KEY_CUSTOM_HYMNS = "custom_hymns_json"
         private const val KEY_ADMIN_CORRECTIONS = "admin_hymn_corrections_json"
         private const val KEY_AUDIO_VOLUME = "audio_player_volume"
+        private const val KEY_DOWNLOADED_ITEMS = "downloaded_items_json"
     }
 
     var language: AppLanguage
@@ -502,6 +504,117 @@ class PreferencesManager(context: Context) {
                 root.put(key, obj)
             }
             prefs.edit().putString(KEY_ADMIN_CORRECTIONS, root.toString()).apply()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
+    fun getDownloadedItems(): List<DownloadedItem> {
+        val json = prefs.getString(KEY_DOWNLOADED_ITEMS, null)
+        if (json.isNullOrBlank()) {
+            return listOf(
+                DownloadedItem(
+                    id = "dl_nzk_essentials",
+                    type = ContentType.HYMN,
+                    title = "Nyimbo za Kristo (Nyimbo Muhimu 1, 2, 24)",
+                    subtitle = "Sifa na Utukufu & Heri Sabato ya Bwana",
+                    estimatedSize = "4.2 MB",
+                    downloadSource = "SDA Public Domain / Authorized",
+                    downloadedAt = System.currentTimeMillis() - 86400000L
+                ),
+                DownloadedItem(
+                    id = "dl_lesson_current",
+                    type = ContentType.LESSON,
+                    title = "Somo la Shule ya Sabato: Mwanga wa Injili",
+                    subtitle = "Masomo ya Siku 7 (Sabato hadi Ijumaa)",
+                    estimatedSize = "1.8 MB",
+                    downloadSource = "Adventist Adult Sabbath School",
+                    downloadedAt = System.currentTimeMillis() - 43200000L
+                ),
+                DownloadedItem(
+                    id = "dl_genesis_creation",
+                    type = ContentType.BIBLE,
+                    title = "Biblia SUV: Mwanzo Sura 1 & 2 (Uumbaji)",
+                    subtitle = "Maandishi kamili ya Agano la Kale",
+                    estimatedSize = "850 KB",
+                    downloadSource = "Swahili Union Version Authorized Text",
+                    downloadedAt = System.currentTimeMillis() - 172800000L
+                ),
+                DownloadedItem(
+                    id = "dl_steps_to_christ",
+                    type = ContentType.EGW,
+                    title = "Hatua kwa Kristo (Steps to Christ)",
+                    subtitle = "Sura 1: Upendo wa Mungu kwa Mwanadamu",
+                    estimatedSize = "1.1 MB",
+                    downloadSource = "Ellen G. White Estate Official",
+                    downloadedAt = System.currentTimeMillis() - 259200000L
+                )
+            )
+        }
+        val list = mutableListOf<DownloadedItem>()
+        try {
+            val array = JSONArray(json)
+            for (i in 0 until array.length()) {
+                val obj = array.getJSONObject(i)
+                val type = try {
+                    ContentType.valueOf(obj.getString("type"))
+                } catch (e: Exception) {
+                    ContentType.HYMN
+                }
+                list.add(
+                    DownloadedItem(
+                        id = obj.getString("id"),
+                        type = type,
+                        title = obj.getString("title"),
+                        subtitle = obj.optString("subtitle", ""),
+                        estimatedSize = obj.optString("estimatedSize", "1.0 MB"),
+                        downloadSource = obj.optString("downloadSource", "SDA Authorized"),
+                        downloadedAt = obj.optLong("downloadedAt", System.currentTimeMillis())
+                    )
+                )
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        return list
+    }
+
+    fun saveDownloadedItem(item: DownloadedItem) {
+        val current = getDownloadedItems().toMutableList()
+        val index = current.indexOfFirst { it.id == item.id }
+        if (index >= 0) {
+            current[index] = item
+        } else {
+            current.add(0, item)
+        }
+        saveDownloadedList(current)
+    }
+
+    fun removeDownloadedItem(id: String) {
+        val current = getDownloadedItems().toMutableList()
+        current.removeAll { it.id == id }
+        saveDownloadedList(current)
+    }
+
+    fun clearAllDownloadedItems() {
+        prefs.edit().remove(KEY_DOWNLOADED_ITEMS).apply()
+    }
+
+    private fun saveDownloadedList(items: List<DownloadedItem>) {
+        try {
+            val array = JSONArray()
+            for (item in items) {
+                val obj = JSONObject()
+                obj.put("id", item.id)
+                obj.put("type", item.type.name)
+                obj.put("title", item.title)
+                obj.put("subtitle", item.subtitle)
+                obj.put("estimatedSize", item.estimatedSize)
+                obj.put("downloadSource", item.downloadSource)
+                obj.put("downloadedAt", item.downloadedAt)
+                array.put(obj)
+            }
+            prefs.edit().putString(KEY_DOWNLOADED_ITEMS, array.toString()).apply()
         } catch (e: Exception) {
             e.printStackTrace()
         }

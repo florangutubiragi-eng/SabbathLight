@@ -9,6 +9,7 @@ import com.example.data.models.AppThemeMode
 import com.example.data.models.BibleBook
 import com.example.data.models.ContentType
 import com.example.data.models.DailyLesson
+import com.example.data.models.DownloadedItem
 import com.example.data.models.EgwBook
 import com.example.data.models.EgwChapter
 import com.example.data.models.FontSizeMode
@@ -142,6 +143,9 @@ class SabbathViewModel(application: Application) : AndroidViewModel(application)
 
     private val _recentlyViewed = MutableStateFlow(prefs.getRecentlyViewed())
     val recentlyViewed: StateFlow<List<RecentlyViewedItem>> = _recentlyViewed.asStateFlow()
+
+    private val _downloadedItems = MutableStateFlow(prefs.getDownloadedItems())
+    val downloadedItems: StateFlow<List<DownloadedItem>> = _downloadedItems.asStateFlow()
 
     // Interactive Audio Simulation
     private val _audioPlayerState = MutableStateFlow(AudioPlayerState(volume = prefs.audioVolume))
@@ -703,5 +707,20 @@ class SabbathViewModel(application: Application) : AndroidViewModel(application)
         val ids = _recentlyPlayedHymnIds.value
         val all = getAllHymns()
         return ids.mapNotNull { id -> all.find { it.id == id } }
+    }
+
+    fun addDownloadedItem(item: DownloadedItem) {
+        prefs.saveDownloadedItem(item)
+        _downloadedItems.value = prefs.getDownloadedItems()
+    }
+
+    fun removeDownloadedItem(id: String) {
+        prefs.removeDownloadedItem(id)
+        _downloadedItems.value = prefs.getDownloadedItems()
+    }
+
+    fun clearAllDownloads() {
+        prefs.clearAllDownloadedItems()
+        _downloadedItems.value = prefs.getDownloadedItems()
     }
 }

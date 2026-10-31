@@ -142,7 +142,8 @@ fun SabbathBottomBar(
                             currentScreen == NavScreen.HOPE_CHANNEL ||
                             currentScreen == NavScreen.BOOKMARKS ||
                             currentScreen == NavScreen.SETTINGS ||
-                            currentScreen == NavScreen.ABOUT
+                            currentScreen == NavScreen.ABOUT ||
+                            currentScreen == NavScreen.DOWNLOADS
                     else -> false
                 }
 
